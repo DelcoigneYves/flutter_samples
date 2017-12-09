@@ -1,5 +1,7 @@
+import 'package:app/config/routing.dart';
 import 'package:app/models/app_state.dart';
 import 'package:app/views/screens/home_screen.dart';
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:app/localization/localization.dart';
@@ -13,6 +15,12 @@ class MyMaterialApp extends StatelessWidget {
     appReducer,
     initialState: new AppState(loading: false)
   );
+  static Router router;
+
+  MyMaterialApp(){
+    router = new Router();
+    Routes.configureRoutes(router);
+  }
 
   @override
   Widget build(BuildContext context) {
