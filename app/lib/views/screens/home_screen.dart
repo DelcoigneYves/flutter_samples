@@ -16,9 +16,9 @@ class HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return new StoreConnector<AppState, _ViewModel>(
+    return new StoreConnector<AppState, HomeScreenViewModel>(
       converter: (store) {
-        return new _ViewModel(loading: store.state.loading);
+        return new HomeScreenViewModel(loading: store.state.loading);
       },
       builder: (context, viewmodel) {
         return new Scaffold(
@@ -32,8 +32,8 @@ class HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class _ViewModel {
+class HomeScreenViewModel {
   final bool loading;
 
-  _ViewModel({@required this.loading});
+  HomeScreenViewModel({@required this.loading});
 }
