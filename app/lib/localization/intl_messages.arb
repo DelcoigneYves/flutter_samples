@@ -1,0 +1,9 @@
+{
+  "@@last_modified": "2017-12-09T13:16:00.471659",
+  "homeScreenTitle": "Home Screen",
+  "@homeScreenTitle": {
+    "description": "Title of the Home screen",
+    "type": "text",
+    "placeholders": {}
+  }
+}

@@ -1,4 +1,6 @@
+import 'package:app/localization/localization.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class HomeScreen extends StatefulWidget {
 
@@ -15,7 +17,7 @@ class HomeScreenState extends State<HomeScreen> {
     return new Scaffold(
       appBar: new AppBar(
         centerTitle: Theme.of(context).platform == TargetPlatform.iOS,
-        title: new Text('Home Screen'),
+        title: new Text(AppLocalizations.of(context).homeScreenTitle),
       ),
     );
   }

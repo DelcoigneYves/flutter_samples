@@ -1,0 +1,10 @@
+{
+  "@@locale": "fr",
+  "@@last_modified": "2017-12-09T12:45:34.768612",
+  "homeScreenTitle": "Accueil",
+  "@homeScreenTitle": {
+    "description": "Title of the Home screen",
+    "type": "text",
+    "placeholders": {}
+  }
+}
