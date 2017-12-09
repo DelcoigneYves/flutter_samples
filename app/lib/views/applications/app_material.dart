@@ -1,12 +1,27 @@
-import 'package:app/screens/home_screen.dart';
+import 'package:app/models/app_state.dart';
+import 'package:app/views/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:app/localization/localization.dart';
+import 'package:app/reducers/app_state_reducer.dart';
+
+import 'package:redux/redux.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 
 class MyMaterialApp extends StatelessWidget {
+  final store = new Store<AppState>(
+    appReducer,
+    initialState: new AppState(loading: false)
+  );
 
   @override
   Widget build(BuildContext context) {
+    return new StoreProvider(
+        store: store,
+        child: _createApp(context));
+  }
+
+  Widget _createApp(BuildContext context) {
     return new MaterialApp(
       localizationsDelegates: [
         new AppLocalizationsDelegate(),

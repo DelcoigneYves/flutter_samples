@@ -1,5 +1,5 @@
 import 'package:app/localization/localization.dart';
-import 'package:app/screens/home_screen.dart';
+import 'package:app/views/screens/home_screen.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
