@@ -50,6 +50,7 @@ class ButtonScreenState extends State<ButtonScreen> {
             _createButtonWithRoundedCorners1(context, viewModel),
             _createCustomStateButton1(context, viewModel),
             _createCupertinoLikeButton1(context, viewModel),
+            _createCustomButtonAnimation(context, viewModel),
           ],
         ),
       ),
@@ -186,8 +187,13 @@ class ButtonScreenState extends State<ButtonScreen> {
     return new RoundedButtonWithCustomState();
   }
 
-  Widget _createCupertinoLikeButton1(BuildContext context, ButtonScreenViewModel viewModel) {
+  Widget _createCupertinoLikeButton1(BuildContext context,
+      ButtonScreenViewModel viewModel) {
     return new CupertinoLikeButton();
+  }
+
+  Widget _createCustomButtonAnimation(BuildContext context, ButtonScreenViewModel viewModel) {
+    return new AnimatedButtonWrapper();
   }
 
 }
@@ -395,5 +401,107 @@ class CupertinoLikeButtonState extends State<CupertinoLikeButton>
 
   void onTap() {
 
+  }
+}
+
+class AnimatedButtonWrapper extends StatefulWidget  {
+
+  @override
+  State<StatefulWidget> createState() {
+    return new AnimatedButtonWrapperState();
+  }
+}
+
+class AnimatedButtonWrapperState extends State<AnimatedButtonWrapper>  with SingleTickerProviderStateMixin {
+
+  AnimationController controller;
+  Animation<Color> animation;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = new AnimationController(
+        duration: const Duration(milliseconds: 100), vsync: this);
+    animation = new ColorTween(begin: Colors.red, end: Colors.blue).animate(controller);
+  }
+
+  dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new GestureDetector(
+      child: new AnimatedButton(animation),
+      onTap: onTap,
+      onTapDown: _handleTapDown,
+      onTapUp: _handleTapUp,
+      onTapCancel: _handleTapCancel,
+    );
+  }
+
+  void onTap() {
+
+  }
+
+  bool _buttonHeldDown = false;
+
+  void _handleTapDown(TapDownDetails event) {
+    if (!_buttonHeldDown) {
+      _buttonHeldDown = true;
+      _animate();
+    }
+  }
+
+  void _handleTapUp(TapUpDetails event) {
+    if (_buttonHeldDown) {
+      _buttonHeldDown = false;
+      _animate();
+    }
+  }
+
+  void _handleTapCancel() {
+    if (_buttonHeldDown) {
+      _buttonHeldDown = false;
+      _animate();
+    }
+  }
+
+  void _animate() {
+    if (controller.isAnimating)
+      return;
+    final bool wasHeldDown = _buttonHeldDown;
+    final Future<Null> ticker = _buttonHeldDown
+        ? controller.forward()
+        : controller.reverse();
+    ticker.then((Null value) {
+      if (mounted && wasHeldDown != _buttonHeldDown)
+        _animate();
+    });
+  }
+}
+
+class AnimatedButton extends AnimatedWidget {
+
+  AnimatedButton(Animation animation) : super(listenable: animation);
+
+  @override
+  Widget build(BuildContext context) {
+    final Animation<Color> animation = listenable;
+    return new DecoratedBox(
+        decoration: new BoxDecoration(
+          borderRadius: new BorderRadius.circular(16.0),
+          color: animation.value,
+        ),
+        child: new Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: new Center(
+            widthFactor: 1.0,
+            heightFactor: 1.0,
+            child: new Text("Just some text"),
+          ),
+      ),
+    );
   }
 }
